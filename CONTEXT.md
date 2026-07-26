@@ -34,7 +34,7 @@ reasoning and trade-offs.
 | 1 | Auth: Supabase Auth (email+password) for creators; public view unauthenticated via slug | [0001](./docs/adr/0001-auth-model.md) |
 | 2 | One public link per account, multiple Topics per account | [0002](./docs/adr/0002-topics-per-account.md) |
 | 3 | Streak/heatmap are account-level, combined across Topics | [0003](./docs/adr/0003-streak-scope.md) |
-| 4 | Registration doubles as first-Topic creation | [0004](./docs/adr/0004-topic-creation-flow.md) |
+| 4 | ~~Registration doubles as first-Topic creation~~ — superseded by 13 | [0004](./docs/adr/0004-topic-creation-flow.md) |
 | 5 | Unlimited Logs/Topic/day; heatmap color = daily log-count intensity | [0005](./docs/adr/0005-log-frequency-and-intensity.md) |
 | 6 | Resource shape `{ url, title }`, dedup by normalized URL | [0006](./docs/adr/0006-resource-shape-and-dedup.md) |
 | 7 | Slug = slugified `username` (separate field from Supabase Auth email) | [0007](./docs/adr/0007-slug-scheme.md) |
@@ -43,6 +43,8 @@ reasoning and trade-offs.
 | 10 | Frontend: Vite + React + TypeScript + React Router (SPA) | [0010](./docs/adr/0010-frontend-stack.md) |
 | 11 | Deployment: Vercel (frontend) + Railway (backend) + Supabase (DB + Auth) | [0011](./docs/adr/0011-deployment-targets.md) |
 | 12 | Streak day-boundary uses Profile's stored timezone; no backdating | [0012](./docs/adr/0012-streak-day-boundary.md) |
+| 13 | Registration and Topic creation are separate API calls, even for the first Topic | [0013](./docs/adr/0013-registration-topic-endpoint-split.md) |
+| 14 | API contract: per-app Zod schemas (no shared package), standard response envelope, typed error codes | [0014](./docs/adr/0014-api-contract-conventions.md) |
 
 ## Learning approach for this build
 

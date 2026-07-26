@@ -1,6 +1,11 @@
 # ADR 0004: Registration doubles as first-Topic creation
 
 ## Status
+Superseded by [ADR 0013](./0013-registration-topic-endpoint-split.md) — registration was later
+split from Topic creation at the API level, though the onboarding UX intent described below (land
+straight into creating a Topic, not an empty dashboard) is preserved by the frontend flow.
+
+## Status (original)
 Accepted
 
 ## Context
