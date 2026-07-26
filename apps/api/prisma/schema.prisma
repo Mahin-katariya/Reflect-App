@@ -24,7 +24,7 @@ model Profile {
 model Topic {
   id          String   @id @default(uuid())
   title       String
-  description String
+  description String?
   profileId   String
   profile     Profile  @relation(fields: [profileId], references: [id])
   created_at  DateTime @default(now())
