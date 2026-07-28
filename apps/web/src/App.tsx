@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router'
+import { Routes, Route, Navigate } from 'react-router'
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -11,6 +11,7 @@ import PublicProfile from './pages/PublicProfile';
 function App() {
   return (
     <Routes>
+      <Route path='/' element={<Navigate to='/login' replace />} />
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login/>} />
       <Route path='/dashboard' element={
