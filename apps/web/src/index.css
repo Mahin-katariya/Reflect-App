@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   Reflect design tokens — "Snow" system (see /DESIGN.md).
+   Defined via Tailwind v4 @theme so they generate utilities:
+   bg-canvas, text-ink, border-line, font-serif, etc.
+   ========================================================================== */
+@theme {
+  /* Surfaces & ink */
+  --color-canvas: #fbfbfc;        /* page background (cool near-white) */
+  --color-surface: #ffffff;       /* input / card fills */
+  --color-ink: #0f0f12;           /* headings, primary button, body-strong */
+  --color-ink-hover: #26272c;     /* primary button hover */
+  --color-muted: #71727a;         /* labels, secondary text, links */
+  --color-faint: #a6a8b0;         /* placeholders, dividers-text, footnotes */
+  --color-line: #e6e7ea;          /* hairline borders (inputs, dividers) */
+  --color-line-strong: #dcdde1;   /* ghost-button / stronger hairline */
+  --color-sidebar: #f4f4f6;       /* app sidebar fill (cool grey, sits under canvas) */
+
+  /* Semantic — form error state */
+  --color-danger: #b42318;
+  --color-danger-bg: #fdf2f2;
+  --color-danger-border: #f3d6d6;
+
+  /* Data-viz — activity heatmap (emerald ramp; the one deliberate non-monochrome
+     exception, scoped to the heatmap only — see DESIGN.md §1). Level 0→4. */
+  --color-heat-0: #e6f5ec;
+  --color-heat-1: #bfe6cf;
+  --color-heat-2: #82cfa3;
+  --color-heat-3: #3fae74;
+  --color-heat-4: #1f8a51;
+
+  /* Type */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif; /* placeholder display serif — see DESIGN.md */
+}
+
+html { color-scheme: light; }
+
+body {
+  margin: 0;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Card entrance — subtle, respects reduced-motion. */
+@keyframes reflect-pop {
+  from { opacity: 0; transform: scale(0.985) translateY(6px); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .animate-pop { animation: reflect-pop 0.3s cubic-bezier(0.16, 1, 0.3, 1) both; }
+}
+
+/* Overlay/scrim fade — used by the link-edit modal. */
+@keyframes reflect-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .animate-fade { animation: reflect-fade 0.16s ease-out both; }
+}

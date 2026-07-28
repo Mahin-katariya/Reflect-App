@@ -7,6 +7,7 @@ import { registerRouter } from './routes/register.js';
 import { topicsRouter } from './routes/topics.js';
 import { requireAuth } from './middlewares/requiredAuth.js';
 import { profileRouter } from './routes/profile.js';
+import { logsRouter } from './routes/logs.js';
 
 const app: Express = express();
 
@@ -28,17 +29,11 @@ app.get('/health', (req: Request, res: Response) => {
   res.json({ ok: "true" });
 });
 
-app.get('/me', requireAuth, (req: Request, res: Response) => {
-  res.json({
-    ok: true,
-    data: { userId: req.userId }
-  });
-})
-
 // * API ROUTES * //
 app.use(registerRouter);
 app.use(topicsRouter);
 app.use(profileRouter);
+app.use(logsRouter)
 
 app.listen(PORT, () => {
   console.log(`apps/api running on PORT: ${PORT}`);

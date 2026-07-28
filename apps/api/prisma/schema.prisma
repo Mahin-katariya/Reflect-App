@@ -28,4 +28,25 @@ model Topic {
   profileId   String
   profile     Profile  @relation(fields: [profileId], references: [id])
   created_at  DateTime @default(now())
+
+  logs Log[] // A topic has many logs, but a log doesn't belong to many topics, only one topic.
+}
+
+model Log {
+  id  String @id @default(uuid())
+  title String
+  notes String @default("")
+  topicId String
+  topic Topic @relation(fields: [topicId], references: [id])
+
+  resources Resource[] //one to many relation one log can have many resources but not vice versa
+  created_at DateTime @default(now())
+}
+
+model Resource {
+  id String @id @default(uuid())
+  url String
+  title String
+  logId String
+  log Log @relation(fields: [logId], references: [id])
 }
