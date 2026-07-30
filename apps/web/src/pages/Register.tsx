@@ -86,7 +86,7 @@ export default function Register() {
               placeholder="your-username"
               autoComplete="username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_-]/g, ""))}
               className="w-full rounded-[10px] border border-line bg-surface px-3.5 py-3 text-[15px] text-ink outline-none transition placeholder:text-faint focus:border-ink focus:shadow-[0_0_0_3px_rgba(15,15,18,0.08)]"
               required
             />
