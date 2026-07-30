@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { supabase } from "../lib/supabase";
 import type { Topic } from "../lib/types";
@@ -18,6 +19,29 @@ function TopicGlyph() {
 
 export default function Sidebar({ topics, username }: SidebarProps) {
   const navigate = useNavigate();
+  const [shareOpen, setShareOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const shareRef = useRef<HTMLDivElement>(null);
+
+  const profileUrl = `${window.location.origin}/profile/${username}`;
+
+  function handleCopy() {
+    navigator.clipboard.writeText(profileUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  useEffect(() => {
+    if (!shareOpen) return;
+    function onClickOutside(e: MouseEvent) {
+      if (shareRef.current && !shareRef.current.contains(e.target as Node)) {
+        setShareOpen(false);
+        setCopied(false);
+      }
+    }
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, [shareOpen]);
 
   return (
     <aside className="sticky top-0 flex h-[100dvh] w-[232px] shrink-0 flex-col gap-0.5 self-start border-r border-line bg-sidebar p-2.5">
@@ -61,15 +85,48 @@ export default function Sidebar({ topics, username }: SidebarProps) {
         )}
       </nav>
 
-      <div className="mt-auto flex items-center justify-between gap-2 border-t border-line px-2 pb-0.5 pt-2.5">
-        <span className="truncate text-[13px] font-medium text-muted transition-colors hover:text-ink cursor-default">@{username}</span>
-        <button
-          type="button"
-          onClick={() => supabase.auth.signOut()}
-          className="shrink-0 rounded-[7px] px-2.5 py-1.5 text-[13px] text-muted transition-colors hover:bg-ink/5 hover:text-ink cursor-pointer"
-        >
-          Sign out
-        </button>
+      <div className="mt-auto relative border-t border-line px-2 pb-0.5 pt-2.5">
+        <div className="flex items-center justify-between gap-2">
+          <button
+            type="button"
+            onClick={() => { setShareOpen(!shareOpen); setCopied(false); }}
+            className="flex items-center gap-1.5 truncate rounded-[7px] px-2.5 py-1.5 text-[13px] font-medium text-muted transition-colors hover:bg-ink/5 hover:text-ink"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M5.5 4.5L7 3m0 0l1.5 1.5M7 3v5.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M3 8v2.5a1 1 0 001 1h6a1 1 0 001-1V8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            Share profile
+          </button>
+          <button
+            type="button"
+            onClick={() => supabase.auth.signOut()}
+            className="shrink-0 rounded-[7px] px-2.5 py-1.5 text-[13px] text-muted transition-colors hover:bg-ink/5 hover:text-ink cursor-pointer"
+          >
+            Sign out
+          </button>
+        </div>
+
+        {shareOpen && (
+          <div ref={shareRef} className="absolute bottom-full left-2 mb-2 w-[calc(100%-16px)] rounded-[10px] border border-line bg-surface p-3 shadow-lg animate-pop">
+            <p className="mb-2 text-[12px] font-medium text-muted">Share your public profile</p>
+            <div className="flex items-center gap-1.5">
+              <input
+                type="text"
+                readOnly
+                value={profileUrl}
+                className="min-w-0 flex-1 rounded-[7px] border border-line bg-canvas px-2.5 py-1.5 text-[12px] text-ink outline-none"
+              />
+              <button
+                type="button"
+                onClick={handleCopy}
+                className="shrink-0 rounded-[7px] bg-ink px-3 py-1.5 text-[12px] text-canvas transition-[background,transform] hover:bg-ink-hover active:scale-[0.97]"
+              >
+                {copied ? "Copied!" : "Copy"}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </aside>
   );
