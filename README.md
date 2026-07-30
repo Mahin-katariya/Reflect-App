@@ -3,7 +3,7 @@
 A small full-stack app for logging what you learn, in public. You register, create
 Topics, and add dated Log entries (each with notes and resource links). Your public
 profile shows a GitHub-style activity heatmap, a combined streak, and a deduplicated
-resource list per topic. The profile doesn't require any auth ```<url>/profile/username```.
+resource list per topic. The public profile doesn't require any auth to view - ```<url>/profile/username```.
 
 **Live app:** https://reflect-lyart.vercel.app &nbsp;·&nbsp; see
 [Deployment](#deployment) below.
