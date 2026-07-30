@@ -3,7 +3,7 @@ import { z } from "zod";
 export const RegisterInput = z.object({
   email: z.email(),
   password: z.string().min(8).max(30),
-  username: z.string().min(3),
+  username: z.string().min(3).regex(/^[a-zA-Z0-9_-]+$/, "Username can only contain letters, numbers, hyphens, and underscores"),
   timezone: z.string().min(1)
 })
 
